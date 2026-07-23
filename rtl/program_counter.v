@@ -14,14 +14,11 @@ module program_counter (
 
 );
 
-always @(posedge clk) begin
-
+always @(posedge clk or posedge rst) begin
     if (rst)
-        pc <= 32'h00000000;
-
+        pc <= 32'd0;
     else
-        pc <= pc_next;
-
+        pc <= pc+32'd4;
 end
 
 endmodule
