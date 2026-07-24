@@ -1,0 +1,35 @@
+`timescale 1ns/1ps
+
+module pipelined_riscv_cpu_tb;
+
+reg clk;
+reg rst;
+
+pipelined_riscv_cpu DUT(
+
+    .clk(clk),
+    .rst(rst)
+
+);
+
+always #5 clk = ~clk;
+
+initial begin
+
+    $dumpfile("pipelined_cpu.vcd");
+    $dumpvars(0,pipelined_riscv_cpu_tb);
+
+    clk = 0;
+    rst = 1;
+
+    #10;
+
+    rst = 0;
+
+    #100;
+
+    $finish;
+
+end
+
+endmodule
