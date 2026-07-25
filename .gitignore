@@ -1,0 +1,38 @@
+# Verilog Simulation Outputs
+
+*.vcd
+*.vvp
+*.out
+*.log
+
+# Simulation executables
+sim/*
+!sim/.gitkeep
+
+# GTKWave
+*.gtkw
+*.sav
+
+# Backup & Temporary Files
+*~
+*.bak
+*.tmp
+*.swp
+
+# VS Code
+.vscode/
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Python (if used)
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Build Artifacts
+*.o
+*.obj
+*.exe
