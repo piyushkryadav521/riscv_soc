@@ -1,4 +1,4 @@
-# 5-Stage Pipelined RISC-V CPU
+# Pipelined RISC-V CPU
 
 ## Overview
 
