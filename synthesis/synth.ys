@@ -1,0 +1,35 @@
+# Read RTL files
+read_verilog rtl/*.v
+
+# Set top module
+hierarchy -top pipelined_riscv_cpu
+
+# Convert processes
+proc
+
+# Optimize logic
+opt
+
+# Handle FSMs
+fsm
+
+# Optimize memories
+memory
+
+# Technology mapping
+techmap
+
+# More optimization
+opt
+
+# Generic logic optimization
+abc
+
+# Cleanup
+clean
+
+# Print statistics
+stat
+
+# Write synthesized netlist
+write_verilog synthesis/netlist.v

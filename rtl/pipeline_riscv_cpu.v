@@ -11,6 +11,8 @@ module pipelined_riscv_cpu(
 wire [31:0] pc;
 wire [31:0] instruction;
 
+wire [3:0] alu_ctrl;
+
 // IF/ID
 wire [31:0] if_pc;
 wire [31:0] if_instruction;
@@ -40,11 +42,28 @@ wire zero;
 // Data Memory
 wire [31:0] mem_read_data;
 
+wire PCSrc;
+wire IF_ID_Flush;
+
+wire [1:0] ForwardA;
+wire [1:0] ForwardB;
+
+wire PCWrite;
+wire IF_ID_Write;
+wire ControlMux;
+
+wire [31:0] pc_plus4;
+wire [31:0] branch_target;
+wire [31:0] next_pc;
+
+assign pc_plus4 = pc + 32'd4;
+assign branch_target = pc + immediate;
 // Program Counter
 program_counter PC (
 
     .clk(clk),
     .rst(rst),
+    .pc_next(next_pc),
     .pc(pc)
 
 );
@@ -145,4 +164,27 @@ data_memory DM(
     .read_data(mem_read_data)
 
 );
+branch_unit BRANCH(
+
+    .Branch(1'b0),
+    .Zero(zero),
+    .PCSrc(PCSrc)
+
+);
+flush_unit FLUSH(
+
+    .PCSrc(PCSrc),
+    .IF_ID_Flush(IF_ID_Flush)
+
+);
+
+pc_mux PCMUX(
+
+    .pc_plus4(pc_plus4),
+    .branch_target(branch_target),
+    .PCSrc(PCSrc),
+    .next_pc(next_pc)
+
+);
+
 endmodule

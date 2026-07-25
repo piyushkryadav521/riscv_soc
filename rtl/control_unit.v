@@ -3,14 +3,14 @@
 module control_unit(
 
     input  wire [6:0] opcode,
-
+    
     output reg RegWrite,
     output reg ALUSrc,
     output reg MemRead,
     output reg MemWrite,
     output reg MemtoReg,
     output reg Branch,
-    output reg Jump,
+    
     output reg [1:0] ALUOp
 
 );
@@ -24,7 +24,6 @@ always @(*) begin
     MemWrite = 0;
     MemtoReg = 0;
     Branch   = 0;
-    Jump     = 0;
     ALUOp    = 2'b00;
 
     case(opcode)
@@ -67,7 +66,6 @@ always @(*) begin
 
         // JAL
         7'b1101111: begin
-            Jump     = 1;
             RegWrite = 1;
         end
 

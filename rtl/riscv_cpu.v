@@ -42,6 +42,7 @@ module riscv_cpu(
 
         .clk(clk),
         .rst(rst),
+        .pc_next(pc+34'd4),
         .pc(pc)
 
     );
@@ -66,7 +67,6 @@ module riscv_cpu(
         .MemWrite(MemWrite),
         .MemtoReg(MemtoReg),
         .Branch(Branch),
-        .Jump(Jump),
         .ALUOp(ALUOp)
 
 );
