@@ -62,6 +62,26 @@ vvp sim/pipeline_sim
 gtkwave pipelined_cpu.vcd
 ```
 
+                   RTL Design
+                       │
+                       ▼
+              Functional Simulation
+            (Icarus Verilog + GTKWave)
+                       │
+                       ▼
+               Verilator Lint Check
+                       │
+                       ▼
+                Logic Synthesis
+                    (Yosys)
+                       │
+                       ▼
+             Gate-Level Simulation
+                       │
+                       ▼
+          Static Timing Analysis
+      (OpenSTA / OpenROAD - In Progress)
+
 ## Author
 
 **Piyush Kumar Yadav**
