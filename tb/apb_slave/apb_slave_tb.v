@@ -53,44 +53,31 @@ PWDATA = 0;
 
 rst = 0;
 
-//
 // WRITE
-//
-
 #10;
 
-PSEL = 1;
-PWRITE = 1;
-PADDR = 4;
-PWDATA = 32'h12345678;
-
-#10;
-
-PENABLE = 1;
-
-#10;
-
-PSEL = 0;
-PENABLE = 0;
-
-//
 // READ
-//
-
 #20;
 
 PSEL = 1;
 PWRITE = 0;
-PADDR = 4;
+PADDR = 32'h00000004;
 
 #10;
-
 PENABLE = 1;
 
+// Wait until slave is ready
+wait(PREADY);
+
 #10;
+
+$display("Read Data = %h", PRDATA);
 
 PSEL = 0;
 PENABLE = 0;
+
+#20;
+$finish;
 
 #20;
 
