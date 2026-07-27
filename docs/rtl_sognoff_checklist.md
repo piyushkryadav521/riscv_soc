@@ -15,6 +15,12 @@
 - [x] No width mismatch
 - [x] No undriven signals
 
+## Coding Review
+- [x] Blocking vs Non-blocking checked
+- [x] FSM reviewed
+- [x] Reset reviewed
+- [x] No combinational loops
+
 ## Synthesis
 - [x] Yosys synthesis successful
 
@@ -22,4 +28,4 @@
 - [x] Gate-level simulation completed
 
 ## Timing
-- [ ] STA with Liberty file (pending)
+- [ ] Full STA with complete Liberty and constraints (future work)
