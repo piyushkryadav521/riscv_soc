@@ -42,7 +42,7 @@ module riscv_cpu(
 
         .clk(clk),
         .rst(rst),
-        .pc_next(pc+34'd4),
+        .pc_next(pc + 32'd4),
         .pc(pc)
 
     );

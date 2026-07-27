@@ -8,12 +8,12 @@
 - [x] GTKWave verified
 
 ## Lint
-- [ ] Verilator lint completed
-- [ ] No syntax warnings
-- [ ] No inferred latches
-- [ ] No multiple drivers
-- [ ] No width mismatch
-- [ ] No undriven signals
+- [x] Verilator lint completed
+- [x] No syntax warnings
+- [x] No inferred latches
+- [x] No multiple drivers
+- [x] No width mismatch
+- [x] No undriven signals
 
 ## Synthesis
 - [x] Yosys synthesis successful
@@ -22,4 +22,4 @@
 - [x] Gate-level simulation completed
 
 ## Timing
-- [ ] STA pending
+- [ ] STA with Liberty file (pending)

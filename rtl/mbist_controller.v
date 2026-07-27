@@ -52,6 +52,10 @@ always @(posedge clk or posedge rst) begin
                 fail <= 0;
             end
 
+            default: begin
+                state <= IDLE;
+            end
+
         endcase
 
     end
