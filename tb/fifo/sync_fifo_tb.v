@@ -18,6 +18,9 @@ wire [WIDTH-1:0] data_out;
 wire full;
 wire empty;
 
+wire overflow;
+wire underflow;
+
 sync_fifo #(
 
 .WIDTH(WIDTH),
@@ -38,7 +41,10 @@ dut(
 .data_out(data_out),
 
 .full(full),
-.empty(empty)
+.empty(empty),
+
+.overflow(overflow),
+.underflow(underflow)
 
 );
 
@@ -78,6 +84,16 @@ initial begin
 
     wr_en = 0;
 
+    @(posedge clk);
+
+    wr_en = 1;
+
+    data_in = 8'hFF;
+
+    @(posedge clk);
+
+    wr_en = 0;
+
     // READ 8 VALUES
     for(i=0;i<8;i=i+1)
     begin
@@ -90,6 +106,26 @@ initial begin
 
     @(posedge clk);
 
+    rd_en = 0;
+
+    @(posedge clk);
+
+    rd_en = 1;
+
+    @(posedge clk);
+
+    rd_en = 0;
+
+    @(posedge clk);
+
+    wr_en = 1;
+    rd_en = 1;
+
+    data_in = 8'hAA;
+
+    @(posedge clk);
+
+    wr_en = 0;
     rd_en = 0;
 
     #30;

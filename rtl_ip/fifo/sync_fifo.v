@@ -20,8 +20,10 @@ input [WIDTH-1:0] data_in,
 output reg [WIDTH-1:0] data_out,
 
 output full,
-output empty
+output empty,
 
+output reg overflow,
+output reg underflow
 );
 
 reg [WIDTH-1:0] mem [0:DEPTH-1];
@@ -47,6 +49,8 @@ begin
         rd_ptr <= 0;
         count <= 0;
         data_out <= 0;
+        overflow <=0;
+        underflow <=0;
 
     end
 
@@ -56,29 +60,45 @@ begin
 
         // WRITE
 
-        if(wr_en && !full)
+        if(wr_en)
+        begin
 
+           if(!full)
         begin
 
             mem[wr_ptr] <= data_in;
 
             wr_ptr <= wr_ptr + 1;
 
+        if(!(rd_en && !empty))
             count <= count + 1;
 
         end
 
+        else
+ 
+            overflow <= 1;
+
+    end
+
         // READ
 
-        if(rd_en && !empty)
+        if(rd_en)
 
         begin
+            if(!empty)
+            begin
 
-            data_out <= mem[rd_ptr];
+                data_out <= mem[rd_ptr];
 
-            rd_ptr <= rd_ptr + 1;
-
-            count <= count - 1;
+                rd_ptr <= rd_ptr + 1;
+            if(!(wr_en && !full))
+                count <= count - 1;
+        end
+        else 
+        begin
+                underflow<=1;
+            end
 
         end
 
