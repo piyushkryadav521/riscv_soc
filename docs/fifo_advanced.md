@@ -6,3 +6,4 @@ Features:
 - Simultaneous read/write
 - Improved counter logic
 - Full and Empty verification
+-Stable count logic

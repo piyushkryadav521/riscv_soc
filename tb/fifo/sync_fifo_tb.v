@@ -128,6 +128,28 @@ initial begin
     wr_en = 0;
     rd_en = 0;
 
+    // Overflow test
+    repeat(10)
+    begin
+        @(posedge clk);
+        wr_en = 1;
+        data_in = $random;
+    end
+
+    @(posedge clk);
+    wr_en = 0;
+
+    // Underflow test
+
+    repeat(10)
+    begin
+        @(posedge clk);
+        rd_en = 1;
+    end
+
+    @(posedge clk);
+    rd_en = 0;
+
     #30;
 
     $finish;
