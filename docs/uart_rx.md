@@ -1,8 +1,13 @@
+UART RX
 
-UART Receiver RTL
+Completed:
 
-Features:
-- Start bit detection
-- Serial-to-parallel conversion
-- Configurable baud rate
-- rx_done pulse generation
+- UART RX module
+- Start-bit detection
+- Shift register
+- Receive complete flag
+
+Next:
+
+- UART RX testbench
+- GTKWave verification

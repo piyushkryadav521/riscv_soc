@@ -10,9 +10,9 @@ module uart_rx #(
     output reg rx_done
 );
 
-localparam integer BAUD_COUNT = CLK_FREQ / BAUD_RATE;
+localparam BAUD_COUNT = CLK_FREQ / BAUD_RATE;
 
-integer baud_counter;
+reg [15:0] baud_counter;
 reg [2:0] bit_counter;
 reg [7:0] shift_reg;
 
@@ -28,6 +28,7 @@ begin
         bit_counter <= 0;
 
         receiving <= 0;
+        bit_counter<=0;
 
         rx_done <= 0;
 
@@ -76,9 +77,7 @@ begin
                 else
                 begin
                     shift_reg[bit_counter] <= rx;
-                    receiving <= 0;
-                    rx_data <= shift_reg;
-                    rx_done <= 1;
+                    rx_data <= {rx, shift_reg[6:0]};
 
                 end
 
