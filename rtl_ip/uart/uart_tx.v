@@ -20,8 +20,8 @@ output reg tx_busy
 
 );
 
-localparam integer BAUD_COUNT = CLK_FREQ / BAUD_RATE;
-integer baud_counter;
+localparam BAUD_COUNT = CLK_FREQ / BAUD_RATE;
+reg [15:0] baud_counter;
 reg [3:0] bit_counter;
 
 reg [9:0] shift_reg;
@@ -35,12 +35,9 @@ begin
     begin
 
         tx <= 1'b1;
-        tx_busy <= 0;
+        tx<=1'b0;
 
-        baud_counter <= 0;
-        bit_counter <= 0;
-
-        shift_reg <= 10'h3FF;
+        shift_reg <= {1'b1,tx_data,1'b0};
 
     end
 
@@ -84,10 +81,10 @@ begin
 
                 bit_counter <= bit_counter + 1;
 
-                if(bit_counter == 9)
+                if(bit_counter == 4'd9)
 
                 begin
-
+                    tx<=1'b1;
                     tx_busy <= 0;
 
                     tx <= 1'b1;
