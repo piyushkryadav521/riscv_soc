@@ -2,6 +2,11 @@
 
 module uart_rx_tb;
 
+parameter CLK_FREQ  = 1000;
+parameter BAUD_RATE = 100;
+
+localparam BAUD_PERIOD = CLK_FREQ / BAUD_RATE;
+
 reg clk;
 reg rst;
 reg rx;
@@ -10,8 +15,8 @@ wire [7:0] rx_data;
 wire rx_done;
 
 uart_rx #(
-    .CLK_FREQ(100),
-    .BAUD_RATE(10)
+    .CLK_FREQ(CLK_FREQ),
+    .BAUD_RATE(BAUD_RATE)
 )
 dut(
     .clk(clk),
@@ -23,19 +28,35 @@ dut(
 
 always #5 clk = ~clk;
 
-// Send one UART bit
-task send_bit;
-input bit_value;
+task send_byte;
+    input [7:0] data;
+    integer i;
 begin
-    rx = bit_value;
-    #100;
+    // Idle
+    rx = 1;
+    #(BAUD_PERIOD*10);
+
+    // Start bit
+    rx = 0;
+    #(BAUD_PERIOD*10);
+
+    // Data bits (LSB first)
+    for(i=0;i<8;i=i+1)
+    begin
+        rx = data[i];
+        #(BAUD_PERIOD*10);
+    end
+
+    // Stop bit
+    rx = 1;
+    #(BAUD_PERIOD*10);
 end
 endtask
 
-initial begin
-
+initial
+begin
     $dumpfile("uart_rx.vcd");
-    $dumpvars(0, uart_rx_tb);
+    $dumpvars(0,uart_rx_tb);
 
     clk = 0;
     rst = 1;
@@ -44,30 +65,16 @@ initial begin
     #20;
     rst = 0;
 
-    #50;
+    send_byte(8'hA5);
 
-    // Start bit
-    send_bit(0);
+    #500;
 
-    // Data = 8'hA5 (LSB first)
-    send_bit(1);
-    send_bit(0);
-    send_bit(1);
-    send_bit(0);
-    send_bit(0);
-    send_bit(1);
-    send_bit(0);
-    send_bit(1);
-
-    // Stop bit
-    send_bit(1);
-
-    #300;
-
-    $display("Received Data = %h", rx_data);
+    if(rx_done && rx_data==8'hA5)
+        $display("PASS : UART RX received %h",rx_data);
+    else
+        $display("FAIL");
 
     $finish;
-
 end
 
 endmodule
