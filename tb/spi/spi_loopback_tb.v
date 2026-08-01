@@ -11,6 +11,7 @@ wire sclk;
 wire mosi;
 wire cs_n;
 wire busy;
+wire miso;
 
 wire [7:0] rx_data;
 wire rx_done;
@@ -32,6 +33,7 @@ master(
     .cs_n(cs_n),
 
     .busy(busy)
+    .miso(miso),
 
 );
 
