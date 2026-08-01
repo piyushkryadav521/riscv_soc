@@ -16,17 +16,15 @@ module spi_master #
     output reg sclk,
     output reg mosi,
     output reg cs_n,
+    output reg [7:0] rx_data,
 
     output reg busy
-
 );
 
 reg [7:0] shift_reg;
+reg [7:0] rx_shift_reg;
 reg [2:0] bit_counter;
 reg [7:0] clk_counter;
-
-reg [7:0] tx_shift_reg;
-output reg [7:0] rx_data;
 
 reg [1:0] state;
 
@@ -121,18 +119,20 @@ begin
                 begin
 
                     mosi <= shift_reg[7];
+                    shift_reg <= {shift_reg[6:0],1'b0};
 
-                    shift_reg <= {rx_shift_reg[6:0],miso};
+                    rx_shift_reg <= {rx_shift_reg[6:0], miso};
                     rx_data <= rx_shift_reg;
 
                     if(bit_counter==0)
-
+                    begin
+                        rx_data <= rx_shift_reg;
                         state <= DONE;
-
+                    end
                     else
-
+                    begin
                         bit_counter <= bit_counter - 1;
-
+                    end
                 end
 
             end
