@@ -34,6 +34,7 @@ always #5 wr_clk = ~wr_clk;
 always #8 rd_clk = ~rd_clk;
 
 initial begin
+
     $dumpfile("async_fifo.vcd");
     $dumpvars(0, async_fifo_tb);
 
@@ -41,15 +42,38 @@ initial begin
     rd_clk = 0;
 
     rst = 1;
+
     wr_en = 0;
     rd_en = 0;
+
     data_in = 0;
 
     #20 rst = 0;
 
-    #200;
+    // Write 4 values
+    repeat(4)
+    begin
+        @(posedge wr_clk);
+        wr_en = 1;
+        data_in = data_in + 8'h11;
+    end
+
+    @(posedge wr_clk);
+    wr_en = 0;
+
+    // Read 4 values
+    repeat(4)
+    begin
+        @(posedge rd_clk);
+        rd_en = 1;
+    end
+
+    @(posedge rd_clk);
+    rd_en = 0;
+
+    #100;
 
     $finish;
-end
 
-endmodule
+end
+endmodule 
