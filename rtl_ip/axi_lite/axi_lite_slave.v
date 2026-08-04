@@ -55,7 +55,7 @@ begin
 
         RDATA <= 0;
 
-        reg0 <= 32'd0;
+        reg0 <= 32'hABCD1234;
         reg1 <= 32'd0;
         reg2 <= 32'd0;
         reg3 <= 32'd0;
@@ -120,7 +120,9 @@ begin
             case (AWADDR[5:2])
 
             2'd0:
-                reg0 <= WDATA;
+                begin 
+                    // read only register
+                end
 
             2'd1:
                 reg1 <= WDATA;
@@ -132,8 +134,10 @@ begin
                 reg3 <= WDATA;
 
             default:
-                ;
-
+            begin
+                RDATA <= 32'hDEADBEEF;
+                RRESP <= 2'b10;  
+            end
             endcase
             BRESP <= 2'b00;
             BVALID <= 1;

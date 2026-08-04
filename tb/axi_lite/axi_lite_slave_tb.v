@@ -85,13 +85,13 @@ begin
     #20;
     ARESETn = 1;
 
-// AXI Write Transaction
+// Write reg1
 @(posedge ACLK);
 
-AWADDR = 32'h00000008;
+AWADDR = 32'h00000004;
 AWVALID = 1;
 
-WDATA = 32'h12345678;
+WDATA = 32'h11111111;
 WVALID = 1;
 
 @(posedge ACLK);
@@ -105,6 +105,73 @@ BREADY = 1;
 
 BREADY = 0;
 
+// Write reg2
+@(posedge ACLK);
+
+AWADDR = 32'h00000008;
+AWVALID = 1;
+
+WDATA = 32'h22222222;
+WVALID = 1;
+
+@(posedge ACLK);
+
+AWVALID = 0;
+WVALID = 0;
+
+BREADY = 1;
+
+@(posedge ACLK);
+
+BREADY = 0;
+
+// Write reg3
+@(posedge ACLK);
+AWADDR = 32'h0000000C;
+AWVALID = 1;
+
+WDATA = 32'h33333333;
+WVALID = 1;
+
+@(posedge ACLK);
+AWVALID = 0;
+WVALID = 0;
+
+BREADY = 1;
+
+@(posedge ACLK);
+BREADY = 0;
+
+$display("[%0t] WRITE : Address = %h Data = %h", $time, AWADDR, WDATA);
+
+// Read reg0
+@(posedge ACLK);
+
+ARADDR = 32'h00000000;
+ARVALID = 1;
+
+@(posedge ACLK);
+
+ARVALID = 0;
+
+RREADY = 1;
+
+@(posedge ACLK);
+
+RREADY = 0;
+
+// Read reg2
+@(posedge ACLK);
+ARADDR = 32'h00000008;
+ARVALID = 1;
+
+@(posedge ACLK);
+ARVALID = 0;
+RREADY = 1;
+
+@(posedge ACLK);
+RREADY = 0;
+
 // AXI Read Transaction
 @(posedge ACLK);
 ARADDR = 32'h00000008;
@@ -116,6 +183,8 @@ RREADY = 1;
 
 @(posedge ACLK);
 RREADY = 0;
+
+$display("[%0t] READ  : Address = %h Data = %h", $time, ARADDR, RDATA);
 
     #100;
 
