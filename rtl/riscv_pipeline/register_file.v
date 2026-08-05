@@ -3,7 +3,7 @@ module register_file(
 input clk,
 input rst,
 
-input reg_write,
+input RegWrite,
 
 input [4:0] rs1,
 input [4:0] rs2,
@@ -31,7 +31,7 @@ begin
 
     end
 
-    else if(reg_write && (rd != 5'd0))
+    else if(RegWrite)
     begin
 
         reg_mem[rd] <= write_data;
