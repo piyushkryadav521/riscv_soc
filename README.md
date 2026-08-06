@@ -1,87 +1,156 @@
-# Pipelined RISC-V CPU
+# 32-bit Pipelined RISC-V Processor (Verilog HDL)
 
 ## Overview
 
-This project implements a 32-bit 5-stage pipelined RISC-V processor using Verilog HDL.
+This project is a 32-bit pipelined RISC-V processor developed in Verilog HDL as part of my RTL Design learning journey.
+
+The objective of this project was to understand processor architecture, RTL design, simulation, and pipeline implementation using industry-standard open-source tools.
+
+---
 
 ## Features
 
-- Program Counter
-- Instruction Memory
-- Register File
-- Immediate Generator
-- Control Unit
-- ALU Control
+- 32-bit RISC-V architecture
+- Five-stage pipeline
+  - Instruction Fetch (IF)
+  - Instruction Decode (ID)
+  - Execute (EX)
+  - Memory (MEM)
+  - Write Back (WB)
 - ALU
+- ALU Control
+- Register File
+- Instruction Memory
 - Data Memory
-- IF/ID Pipeline Register
-- ID/EX Pipeline Register
-- EX/MEM Pipeline Register
-- MEM/WB Pipeline Register
+- Immediate Generator
 - Hazard Detection Unit
 - Forwarding Unit
-- Branch Unit
-- Flush Unit
-- PC Multiplexer
+- Pipeline Registers
+- Branch Control
+- Pipeline Flush Logic
+
+---
+
+## Project Structure
+
+```
+riscv_soc/
+│
+├── rtl/
+│   ├── control_unit.v
+│   ├── alu.v
+│   ├── register_file.v
+│   ├── data_memory.v
+│   ├── instruction_memory.v
+│   └── riscv_pipeline/
+│
+├── tb/
+│
+├── sim/
+│
+├── docs/
+│
+└── README.md
+```
+
+---
 
 ## Tools Used
 
 - Verilog HDL
 - Icarus Verilog
 - GTKWave
-- Visual Studio Code
-- Ubuntu (WSL)
-- Git & GitHub
+- Ubuntu WSL
+- VS Code
+- Git
+- GitHub
 
-## Folder Structure
-
-```
-riscv_soc/
-├── rtl/
-├── tb/
-├── sim/
-├── docs/
-└── README.md
-```
+---
 
 ## How to Compile
 
-```bash
-iverilog rtl/*.v tb/pipeline_riscv_cpu_tb.v -o sim/pipeline_sim
-```
-
-## How to Simulate
+Example:
 
 ```bash
-vvp sim/pipeline_sim
+iverilog -g2012 \
+rtl/control_unit.v \
+rtl/riscv_pipeline/*.v \
+tb/riscv_pipeline/pipeline_top_tb.v \
+-o sim/pipeline_top
 ```
+
+---
+
+## How to Run
+
+```bash
+vvp sim/pipeline_top
+```
+
+---
 
 ## View Waveform
 
 ```bash
-gtkwave pipelined_cpu.vcd
+gtkwave riscv_pipeline_top.vcd
 ```
 
-                   RTL Design
-                       │
-                       ▼
-              Functional Simulation
-            (Icarus Verilog + GTKWave)
-                       │
-                       ▼
-               Verilator Lint Check
-                       │
-                       ▼
-                Logic Synthesis
-                    (Yosys)
-                       │
-                       ▼
-             Gate-Level Simulation
-                       │
-                       ▼
-          Static Timing Analysis
-      (OpenSTA / OpenROAD - In Progress)
+---
+
+## Learning Outcomes
+
+During this project I learned:
+
+- RTL Coding in Verilog
+- Modular Design
+- Pipeline Architecture
+- Control Signal Generation
+- ALU Design
+- Register File Design
+- Memory Design
+- Hazard Detection
+- Forwarding Logic
+- Testbench Development
+- Simulation using Icarus Verilog
+- Waveform Debugging using GTKWave
+- Git & GitHub Workflow
+
+---
+
+## Current Status
+
+- ✔ Individual RTL modules implemented
+- ✔ Module-level simulations completed
+- ✔ Pipeline architecture developed
+- ✔ Top-level integration in progress
+
+This repository documents my RTL design learning journey and will continue to be improved.
+
+---
+
+## Future Improvements
+
+- Complete top-level pipeline integration
+- Pipeline verification
+- Branch prediction
+- Cache implementation
+- FPGA implementation
+- DFT support (Scan Chain, MBIST)
+
+---
 
 ## Author
 
 **Piyush Kumar Yadav**
+
+Electronics & Communication Engineering
+
+Interested in:
+
+- RTL Design
+- Digital VLSI
+- FPGA
+- Computer Architecture
+
+GitHub: https://github.com/piyushkryadav521
+LinkedIn: www.linkedin.com/in/piyush-kr-yadav-261799218
