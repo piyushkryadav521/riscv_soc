@@ -54,70 +54,17 @@ wire [31:0] memory_data;
 // Write Back
 wire [31:0] write_data;
 
-// Module Instantiations
-instruction_decode ID(
+// ALU Control
+wire [3:0] ALUCtrl; 
 
-.instruction(instruction),
-
-.opcode(opcode),
-.rd(rd),
-.funct3(funct3),
-
-.rs1(rs1),
-.rs2(rs2),
-
-.funct7(funct7)
-);
-control_unit CTRL(
-
-.opcode(opcode),
-
-.RegWrite(RegWrite),
-.ALUSrc(ALUSrc),
-
-.MemRead(MemRead),
-.MemWrite(MemWrite),
-
-.MemtoReg(MemtoReg),
-
-.Branch(Branch),
-
-.ALUOp(ALUOp)
-
-);       
-
-register_file RF(
-
-.clk(clk),
-.rst(rst),
-
-.RegWrite(RegWrite),
-
-.rs1(rs1),
-.rs2(rs2),
-.rd(rd),
-
-.write_data(write_data),
-
-.rs1_data(rs1_data),
-.rs2_data(rs2_data)
-
-);
-
-immediate_generator IMM(
-
-.instruction(instruction),
-
-.immediate(immediate)
-
-);
+wire [31:0] operand_b_mux;
 
 execute_stage EX(
 
 .operand_a(rs1_data),
-.operand_b(rs2_data),
+.operand_b(operand_b_mux),
 
-.alu_control(4'b0000),
+.alu_control(ALUCtrl),
 
 .alu_result(alu_result),
 
@@ -129,8 +76,8 @@ memory_stage MEM(
 
 .clk(clk),
 
-.mem_read(memRead),
-.mem_write(memWrite),
+.mem_read(MemRead),
+.mem_write(MemWrite),
 
 .address(alu_result),
 
@@ -150,6 +97,52 @@ write_back WB(
 
 .write_data(write_data)
 
+);
+
+instruction_fetch IF(
+.clk(clk),
+.rst(rst),
+
+.pc(pc),
+.instruction(instruction)
+);
+
+id_stage ID(
+
+.clk(clk),
+.rst(rst),
+
+.instruction(instruction),
+.write_data(write_data),
+
+.rs1_data(rs1_data),
+.rs2_data(rs2_data),
+.immediate(immediate),
+
+.RegWrite(RegWrite),
+.ALUSrc(ALUSrc),
+.MemRead(MemRead),
+.MemWrite(MemWrite),
+.MemtoReg(MemtoReg),
+.Branch(Branch),
+
+.ALUOp(ALUOp),
+
+.rs1(rs1),
+.rs2(rs2),
+.rd(rd),
+
+.funct3(funct3),
+.funct7(funct7)
+);
+
+alu_control ALUCTRL(
+
+.ALUOp(ALUOp),
+.funct3(funct3),
+.funct7(funct7),
+
+.ALUCtrl(ALUCtrl)
 );
 
 endmodule
