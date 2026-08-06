@@ -153,4 +153,8 @@ Interested in:
 - Computer Architecture
 
 GitHub: https://github.com/piyushkryadav521
+<<<<<<< HEAD
 LinkedIn: www.linkedin.com/in/piyush-kr-yadav-261799218
+=======
+LinkedIn: www.linkedin.com/in/piyush-kr-yadav-261799218
+>>>>>>> be0540f (Complete RTL VLSI Learning Projects)

@@ -18,7 +18,8 @@ initial
 begin
 
 $dumpfile("riscv_pipeline_top.vcd");
-$dumpvars(0,riscv_pipeline_top_tb);
+$dumpvars(0, riscv_pipeline_top_tb);
+$dumpvars(1, dut);
 
 clk = 0;
 rst = 1;
